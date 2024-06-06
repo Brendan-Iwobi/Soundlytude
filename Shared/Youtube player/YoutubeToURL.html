@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Our Funky HTML Page</title>
+    <meta name="description" content="Our first page">
+    <meta name="keywords" content="html tutorial template">
+    <script src="https://cdn.jsdelivr.net/gh/thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.js"></script>
+  </head>
+  <!-- https://cdn.jsdelivr.net/npm/@thelevicole/youtube-to-html5-loader@5/dist/YouTubeToHtml5.js -->
+  <body> Content goes here.
+      <video id="youtubeVid" data-yt2html5="9F53UQ_2L_I" controls poster="https://i.ytimg.com/vi/7xAHv6CqwuU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDtwkLQ0sg91MFf6FOjHA63pS-TGg" playsInline>
+      </video>
+    <script>
+      const controller = new YouTubeToHtml5({
+        autoload: false,
+        withAudio: true
+      });
+      controller.load()
+      const videoElement = document.getElementById("youtubeVid");
+      videoElement.addEventListener('loadeddata', (e) => {
+        //Video should now be loaded but we can add a second check
+        if (videoElement.readyState >= 2) {
+          let source = document.getElementById("youtubeVid").src
+          let para = document.createElement("audio")
+          para.src = source
+          para.id = "song"
+          para.controls = "controls"
+          document.body.appendChild(para);
+          console.log(source)
+          //document.getElementById('song').play();
+
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+                <!-- <link rel="stylesheet" href="style.css"> -->
+                <script src="https://unpkg.com/wavesurfer.js@7"></script>
+                <script src="https://unpkg.com/wavesurfer.js@7"></script>
+                <script src="https://unpkg.com/wavesurfer.js@7.7.3/dist/plugins/timeline.min.js"></script>
+                <script type="module" src="main.js"></script>
+                <script src="https://unpkg.com/wavesurfer.js"></script>
+            </head>
+    <style>*  {
+        padding: 0;
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+        
+        html,body{
+            height: 100%;
+            overflow: hidden;
+        }
+        #waveform {
+            width: 100%;
+            margin: 5px;
+            text-align: center;
+            
+        }
+        
+        .outerDiv {
+            display: flex;              /* establish flex container */
+            flex-direction: column;     /* stack flex items vertically */
+            justify-content: center;    /* center items vertically, in this case */
+            align-items: center;        /* center items horizontally, in this case */
+            height: 100%;
+        }
+        .outerDiv {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+             -khtml-user-select: none; /* Konqueror HTML */
+               -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome, Edge, Opera and Firefox */
+        }
+    </style>
+    <body>
+        <div class="outerDiv"><div id="waveform"></div></div>
+        
+        <script>
+            let wavesurfer
+            
+            window.onload = function() {
+                let message = {
+                    "reason": "ready",
+                    "messageString": "",
+                    "messageDouble": 0
+                }
+                post(message)
+            }
+            
+            <!--            wavesurfer.load("https://static.wixstatic.com/mp3/0fd70b_a1e4101440f34b7c8d15412258af687e.mp3")-->
+            
+            window.addEventListener("message", (event) => {
+                console.log("Receive from the host", event)
+                let data = event.data
+                
+                if (data.reason === "load") {
+                    wavesurfer = WaveSurfer.create({
+                        container: '#waveform',
+                        waveColor: "#cfcfcf",
+                        progressColor: `#${data.themeColor}`,
+                        barWidth: 1.75,
+                        barGap: 1.5,
+                        responsive: true,
+                        height: 40,
+                        barRadius: 2.5,
+                        dragToSeek: true,
+                        preservePitch: false,
+                    })
+                    
+                    wavesurfer.load(data.audioUrl)
+                    wavesurfer.setPlaybackRate(0.5, false)
+                    
+                    wavesurfer.on('clicke', () => { //spelt click wrong on purpose
+                        wavesurfer.playPause()
+                    })
+                    wavesurfer.on('finish', () => { //spelt click wrong on purpose
+                        wavesurfer.setTime(0)
+                        wavesurfer.setPlaybackRate(0.5, false)
+                        wavesurfer.play()
+                    })
+                    
+                    wavesurfer.on('pause', () => { //this is incase the audio pauses unprogramatically
+                        let message = {
+                            "reason": "pause",
+                            "messageString": "",
+                            "messageDouble": 0
+                        }
+                        post(message)
+                    })
+                    
+                    wavesurfer.on('play', () => { //this is incase the audio plays unprogramatically
+                        let message = {
+                            "reason": "play",
+                            "messageString": "",
+                            "messageDouble": 0
+                        }
+                        post(message)
+                    })
+                }
+                if (data.reason === "play") {
+                    wavesurfer.play()
+                }
+                if (data.reason === "pause") {
+                    wavesurfer.pause()
+                    wavesurfer.setPlaybackRate(0.5)
+                }
+                if (data.reason === "restart") {
+                    wavesurfer.setTime(0)
+                    }
+            })
+            
+            
+            function post(message) {
+                sendWebKitMessage('fromWebPage', JSON.stringify(message))
+            }
+            
+            function sendWebKitMessage(handler, message) {
+                if (
+                    message != "" &&
+                    handler != "" &&
+                    window.webkit &&
+                    window.webkit.messageHandlers &&
+                    window.webkit.messageHandlers.hasOwnProperty(handler)
+                    ) {
+                        window.webkit.messageHandlers[handler].postMessage(message);
+                    }
+            }
+        </script>
+    </body>
+    
+</html>

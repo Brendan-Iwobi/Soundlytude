@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Soundlytude.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>1E2B3C985DEDAFFF86E74206E22FEE35F9BB83E7</string>
+				<key>dateExpires</key>
+				<string>5/30/25</string>
+				<key>type</key>
+				<string>Cloud Managed Apple Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>KN293WJFZN.com.lytude.soundlytude.soundlytude</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>KN293WJFZN</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>Soundlytude.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>18b15077-44b7-4aea-9cc3-63568c6d9c26</string>
+				<key>dateExpires</key>
+				<string>5/30/25</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.lytude.soundlytude.soundlytude</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>KN293WJFZN</string>
+				<key>name</key>
+				<string>Nzubechukwu Okey-Iwobi</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
